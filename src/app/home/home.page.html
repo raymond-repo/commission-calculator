@@ -1,20 +1,108 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Commission Calculator
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Detail Entry</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <ion-item>
+          <ion-label>Capital: </ion-label> 
+          <ion-input formControlName="capital" (click)="onClick('capital')"
+            type="text" (change)="capitalOnChange()"></ion-input>
+        </ion-item>
+       
+        <div class="font-color" *ngIf="form.get('capital').invalid && 
+          (form.get('capital').touched || form.get('capital').dirty)">
+          <ion-icon class="vertical-align" name="alert-circle-outline"></ion-icon>
+          <ion-label *ngIf="form.get('capital').getError('required')" 
+            class="vertical-align"> This field is required </ion-label>
+          <ion-label *ngIf="form.get('capital').getError('pattern')" 
+            class="vertical-align"> Numeric only </ion-label>
+        </div>
+  
+        <ion-item>
+          <ion-label>Percentage(%): </ion-label>
+          <ion-input formControlName="percentage" (click)="onClick('percentage')"
+            type="text" (change)="percentageOnChange()"></ion-input>
+        </ion-item>
+
+        <div class="font-color" *ngIf="form.get('percentage').invalid && 
+          (form.get('percentage').touched || form.get('percentage').dirty)">
+          <ion-icon class="vertical-align" name="alert-circle-outline"></ion-icon>
+          <ion-label *ngIf="form.get('percentage').getError('required')" 
+            class="vertical-align"> This field is required </ion-label>
+          <ion-label *ngIf="form.get('percentage').getError('max')" 
+            class="vertical-align"> Maximum value is 100 </ion-label>
+          <ion-label *ngIf="form.get('percentage').getError('pattern')" 
+            class="vertical-align"> Numeric only </ion-label>
+        </div>
+  
+        <ion-item>
+          <ion-label>Number of days: </ion-label>
+          <ion-input formControlName="noOfDays" type="number" (click)="onClick('noOfDays')"></ion-input>
+        </ion-item>
+
+        <div class="font-color" *ngIf="form.get('noOfDays').invalid && 
+          (form.get('noOfDays').touched || form.get('noOfDays').dirty)">
+          <ion-icon class="vertical-align" name="alert-circle-outline"></ion-icon>
+          <ion-label *ngIf="form.get('noOfDays').getError('required')" 
+            class="vertical-align"> This field is required </ion-label>
+        </div>
+  
+        <div style="margin-top: 15px;">
+          <ion-button color="primary" type="submit" expand="block">Calculate</ion-button>
+          <ion-button color="danger" expand="block" (click)="clear()">Clear</ion-button>
+        </div>
+        
+      </form>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="showResult">
+    <ion-card-header>
+      <ion-card-title>Results</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-text>
+          <h2 style="font-weight: bold;">Total Commision: {{totalCommission}}</h2>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-text>
+          <h2 style="font-weight: bold;">Total Earnings: {{totalEarnings}}</h2>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <table>
+          <tr>
+            <th>Day No</th>
+            <th>Commission</th>
+            <th>Earnings</th>
+          </tr>
+          <tr *ngFor="let totalResult of results; let i = index;">
+            <td style="text-align: center;">{{i + 1}}</td>
+            <td style="text-align: right;">{{totalResult.commissionPerDay}}</td>
+            <td style="text-align: right;">{{totalResult.earningsPerDay}}</td>
+          </tr>
+        </table>
+      </ion-item>
+
+      
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -25,3 +25,27 @@
 #container a {
   text-decoration: none;
 }
+
+table {
+  margin-top: 10px;
+  width: 100%;
+}
+
+th {
+  text-align: center;
+}
+
+.vertical-align {
+  vertical-align: middle;
+}
+
+.font-color {
+  color: red
+}
+
+.my-loading-class {
+  --background: #222;
+  --spinner-color: #fff;
+
+  color: #fff;
+}
