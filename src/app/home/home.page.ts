@@ -47,14 +47,15 @@ export class HomePage implements OnInit {
         const noOfDays = Number(this.form.get('noOfDays').value);
     
         let totalCommission = 0;
+        let interestPerDay = 0;
         this.results = [];
         for(let i = 0; i < noOfDays; i++){
-          let interest = capital * percentage;
-          totalCommission += interest;
-          capital += interest;
+          interestPerDay = capital * percentage;
+          totalCommission += interestPerDay;
+          capital += interestPerDay;
     
           this.results.push({
-            commissionPerDay: this.formatNumber(totalCommission.toFixed(2)),
+            commissionPerDay: this.formatNumber(interestPerDay.toFixed(2)),
             earningsPerDay: this.formatNumber(capital.toFixed(2))
           });
         }
